@@ -19,4 +19,24 @@ const addUser = async (user) => {
   return result.insertId;
 };
 
-module.exports = { getAllUsers, getUserById, addUser };
+const updateUserById = async (id, user) => {
+  const { name, email, phone } = user;
+  const [result] = await db.query(
+    "update users set name = ?, email = ?, phone = ? where id = ?",
+    [name, email, phone, id]
+  );
+  return result.affectedRows;
+};
+
+const deleteUserById = async (id) => {
+  const [result] = await db.query("delete from users where id = ?", [id]);
+  return result.affectedRows;
+};
+
+module.exports = {
+  getAllUsers,
+  getUserById,
+  addUser,
+  updateUserById,
+  deleteUserById,
+};

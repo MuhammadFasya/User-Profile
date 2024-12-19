@@ -34,4 +34,47 @@ const addUser = async (req, res) => {
   }
 };
 
-module.exports = { getAllUsers, getUserById, addUser };
+// Update
+const updateUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = req.body;
+    const updated = await userModel.updateUserById(id, user);
+
+    if (updated) {
+      res.status(200).json({ message: "User updated successfully" });
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error updating user", error: err.message });
+  }
+};
+
+// Delete
+const deleteUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await userModel.deleteUserById(id);
+
+    if (deleted) {
+      res.status(200).json({ message: "User deleted successfully" });
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error deleting user", error: err.message });
+  }
+};
+
+module.exports = {
+  getAllUsers,
+  getUserById,
+  addUser,
+  updateUserById,
+  deleteUserById,
+};
